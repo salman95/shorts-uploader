@@ -12,7 +12,7 @@ export class AppComponent {
 
   title = 'shorts-uploader';
   selectedFile!: File;
-  
+
 
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0];
@@ -32,6 +32,19 @@ export class AppComponent {
     this.http.get('http://localhost:5000/api/convert-video')
     .subscribe(res => {
       console.log(res)
+    })
+  }
+  public downloadVideo(): void{
+    this.http.get('http://localhost:5000/api/download-video',
+    {observe: 'response', responseType: 'blob'})
+    .subscribe(res => {
+      let fileName:string = res.headers.get('Content-Disposition')
+      ?.split(';')[1].split('=')[1] as string;
+      let blob: Blob = res.body as Blob;
+      let a = document.createElement('a');
+      a.download = fileName;
+      a.href = window.URL.createObjectURL(blob);
+      a.click();
     })
   }
 }
