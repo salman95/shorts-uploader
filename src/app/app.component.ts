@@ -13,6 +13,7 @@ export class AppComponent {
 
   title = 'shorts-uploader';
   selectedFile!: File;
+  resolution = '';
 
 
   onFileSelected(event: any) {
@@ -28,13 +29,13 @@ export class AppComponent {
   }
 
   shortConversion() {
-    this.api.convertToShort().subscribe(res => {
+    this.api.convertToShort(this.resolution).subscribe(res => {
       console.log(res)
     })
   }
 
   videoCompression() {
-    this.api.compressVideo().subscribe(res => {
+    this.api.compressVideo(this.resolution).subscribe(res => {
       console.log(res)
     })
   }

@@ -16,12 +16,12 @@ export class ApiService {
     return this.http.post(this.localHttpURL + '/files', fd);
   }
 
-  convertToShort() {
-    return this.http.get(this.localHttpURL + '/convert-video');
+  convertToShort(resolution: string) {
+    return this.http.post(this.localHttpURL + '/convert-video', resolution);
   }
 
-  compressVideo() {
-    return this.http.get(this.localHttpURL + '/compress-video');
+  compressVideo(resolution: string) {
+    return this.http.post(this.localHttpURL + '/compress-video', resolution);
   }
 
   downloadVideo() {
