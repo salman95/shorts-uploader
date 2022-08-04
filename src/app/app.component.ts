@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PostData } from './post-data';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { PostData } from './post-data';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public api: ApiService) { }
 
   title = 'shorts-uploader';
   selectedFile!: File;
@@ -20,26 +21,29 @@ export class AppComponent {
   }
 
   onUpload() {
-    const fd = new FormData();
-    fd.append('file', this.selectedFile, this.selectedFile.name);//converts the file to form data
-    this.http.post('http://localhost:5000/api/files', fd)
-    .subscribe(res => {
+    this.api.uploadVideo(this.selectedFile).subscribe(res => {
       console.log(res)
-    })
+    });
     console.log(this.selectedFile);
   }
-  onGetTest() {
-    this.http.get('http://localhost:5000/api/convert-video')
-    .subscribe(res => {
+
+  shortConversion() {
+    this.api.convertToShort().subscribe(res => {
       console.log(res)
     })
   }
-  public downloadVideo(): void{
-    this.http.get('http://localhost:5000/api/download-video',
-    {observe: 'response', responseType: 'blob'})
+
+  videoCompression() {
+    this.api.compressVideo().subscribe(res => {
+      console.log(res)
+    })
+  }
+
+  public onDownload(): void{
+    this.api.downloadVideo()
     .subscribe(res => {
-      let fileName:string = res.headers.get('Content-Disposition')
-      ?.split(';')[1].split('=')[1] as string;
+      let fileName = "video";
+      console.log(fileName);
       let blob: Blob = res.body as Blob;
       let a = document.createElement('a');
       a.download = fileName;

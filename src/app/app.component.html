@@ -1,8 +1,10 @@
-<h1>Test page</h1>
+<h1>Shorts Converter</h1>
 <input type="file" name="file" (change)="onFileSelected($event)">
 <br>
 <button (click)="onUpload()">Upload</button>
 <br>
-<button (click)="onGetTest()">Convert Video</button>
+<button (click)="shortConversion()">Convert Video to Short Format</button>
 <br>
-<button (click)="downloadVideo()">Download Vid</button>
+<button (click)="videoCompression()">Compress Video</button>
+<br>
+<button (click)="onDownload()">Download Video</button>
